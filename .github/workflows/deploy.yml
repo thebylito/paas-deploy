@@ -1,0 +1,16 @@
+name: Build App & Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: production
+      image_name: paas-deploy
+    secrets:
+      CAPROVER_SERVER: ${{ secrets.CAPROVER_SERVER }}
+      APP_NAME: ${{ secrets.APP_NAME }}
+      APP_TOKEN: ${{ secrets.APP_TOKEN }}

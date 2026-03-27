@@ -1,0 +1,37 @@
+name: Code Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: ⬣ ESLint & ʦ TypeScript
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: yarn
+
+      - name: 📥 Install dependencies
+        run: yarn install --immutable
+
+      - name: 🔬 Lint
+        run: yarn ci:eslint
+
+      - name: 🔎 Type check
+        run: yarn ci:tsc
+
+      - name: 💅 Prettier check
+        run: yarn ci:prettier
