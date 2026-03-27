@@ -19,18 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v2.1.0
-        with:
-          app_id: ${{ secrets.GH_BOT_ID }}
-          private_key: ${{ secrets.GH_BOT_PRIVATE_KEY }}
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
-          token: ${{ steps.generate_token.outputs.token }}
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
@@ -50,6 +42,4 @@ jobs:
         run: yarn install --immutable
 
       - name: 🚀 Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: npx semantic-release
