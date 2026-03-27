@@ -24,14 +24,14 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 24.x
           cache: yarn
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Cache node_modules
         uses: actions/cache@v4
